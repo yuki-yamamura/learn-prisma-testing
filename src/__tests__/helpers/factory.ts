@@ -1,6 +1,5 @@
 import { PrismaClient, Prisma } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { prismaClient } from "@/infrastructure/prisma/client";
 
 const buildPrismaInclude = (input: {}) => {
   return Object.entries(input).reduce(
@@ -35,7 +34,7 @@ export const createFactory = <Model, CreateInput>(
     const model = `${modelName.charAt(0).toLowerCase()}${modelName.slice(1)}`;
     const include = buildPrismaInclude(input);
 
-    return (prisma[model as keyof PrismaClient] as any).create({
+    return (prismaClient[model as keyof PrismaClient] as any).create({
       data: input,
       include: Object.keys(include).length > 0 ? include : undefined,
     });

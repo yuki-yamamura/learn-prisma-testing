@@ -1,9 +1,9 @@
-import type { Actor, Prisma } from "@prisma/client";
-import { prismaClient } from "../../prisma/client.js";
+import { Prisma, PrismaClient, type Actor } from "@prisma/client";
 
 export class ActorRepository {
+  constructor(private prismaClient: PrismaClient | Prisma.TransactionClient) {}
   async findAll() {
-    return prismaClient.actor.findMany({
+    return this.prismaClient.actor.findMany({
       include: {
         filmActor: {
           include: {
@@ -15,7 +15,7 @@ export class ActorRepository {
   }
 
   async findById(id: Actor["actorId"]) {
-    return prismaClient.actor.findUnique({
+    return this.prismaClient.actor.findUnique({
       where: {
         actorId: id,
       },
@@ -23,13 +23,13 @@ export class ActorRepository {
   }
 
   async save(actor: Prisma.ActorCreateInput) {
-    prismaClient.actor.create({
+    return this.prismaClient.actor.create({
       data: actor,
     });
   }
 
   async update(id: Actor["actorId"], actor: Prisma.ActorUpdateInput) {
-    prismaClient.actor.update({
+    return this.prismaClient.actor.update({
       where: {
         actorId: id,
       },

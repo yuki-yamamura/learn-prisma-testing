@@ -1,19 +1,11 @@
-version: "3.9"
-
 services:
   db:
-    build:
-      dockerfile: ./Dockerfile
+    image: postgres:13
     restart: always
-    container_name: dvd_rental_db
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: dvd_rental
+    container_name: integration-tests-prisma
     ports:
-      - 5432:5432
-    volumes:
-      - dvd_rental_data:/var/lib/postgresql/data
-
-volumes:
-  dvd_rental_data:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: prisma
+      POSTGRES_PASSWORD: prisma
+      POSTGRES_DB: tests

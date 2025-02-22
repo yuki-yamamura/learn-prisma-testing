@@ -1,12 +1,12 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
-import { ActorQuery } from "./application/actors/query.js";
+import { ActorCommand } from "./application/actors/command.js";
 
 const app = new Hono();
 
 app.get("/", async (c) => {
-  const actorQuery = new ActorQuery();
-  const actors = await actorQuery.findAll();
+  const actorQuery = new ActorCommand();
+  const actors = await actorQuery.save();
 
   return c.json(actors);
 });
